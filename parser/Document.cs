@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 using System.Linq;
 using tokenizer;
 
@@ -8,11 +7,11 @@ namespace parser
 {
   class Document
   {
-    private Sentences sentences = new Sentences();
+    private readonly Sentences sentences = new Sentences();
 
     public Sentences Parse(string text)
     {
-      Tokenizer t = new Tokenizer(CreateGrammar(), text);
+      Tokenizer t = new(CreateGrammar(), text);
 
       ThrowErrorInvalidSentence(text.Length);
 
@@ -27,7 +26,7 @@ namespace parser
     {
       Grammar grammar = new Grammar();
 
-      RegexRule r = new RegexRule("WORD", "^[\\w|åäöÅÄÖ]+");
+      RegexRule r = new("WORD", "^[\\w|åäöÅÄÖ]+");
       grammar.Add(r);
       r = new RegexRule("DOT", "^\\.");
       grammar.Add(r);
@@ -41,14 +40,15 @@ namespace parser
 
     private void ParseSentences(Tokenizer t)
     {
-      var words = ParseSentence(t);
+      var words = ParseWords(t);
       Sentence s = CreateSentenceType(t, words);
 
       ThrowErrorInvalidSentence(s.GetSentence().Length);
+
       sentences.Add(s);
     }
 
-    private List<TokenMatch> ParseSentence(Tokenizer t)
+    private List<TokenMatch> ParseWords(Tokenizer t)
     {
       List<TokenMatch> words = new();
 
@@ -62,18 +62,17 @@ namespace parser
     }
 
     private Sentence CreateSentenceType(Tokenizer t, List<TokenMatch> words) {
-        SentenceFactory f = new();
-        Sentence s = f.GetSentenceType(t.ActiveToken);
-        
-        Console.WriteLine(s);
+        SentenceFactory factory = new();
+        Sentence sentence = factory.GetSentenceType(t.ActiveToken);
+
         foreach(var w in words) {
-          s.Add(w);
+          sentence.Add(w);
         }
 
-        s.Add(t.ActiveToken);
+        sentence.Add(t.ActiveToken);
         t.GetNextToken();
 
-        return s;
+        return sentence;
     }
 
     private void ThrowErrorInvalidSentence(int length)
@@ -91,17 +90,17 @@ namespace parser
 
     public List<Sentence> GetAllRegularSentences()
     {
-      return GetAllSentences().Where(s => s.GetEndType().Token == "DOT").ToList();
+      return GetAllSentences().Where(s => s is RegularSentence).ToList();
     }
 
     public List<Sentence> GetAllQuestions()
     {
-      return GetAllSentences().Where(s => s.GetEndType().Token == "QUESTIONMARK").ToList();
+      return GetAllSentences().Where(s => s is Question).ToList();
     }
 
     public List<Sentence> GetAllExclamations()
     {
-      return GetAllSentences().Where(s => s.GetEndType().Token == "EXCLAMATIONMARK").ToList();
+      return GetAllSentences().Where(s => s is Exclamation).ToList();
     }
   }
 }
