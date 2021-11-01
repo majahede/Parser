@@ -7,7 +7,11 @@ namespace parser
 {
   class Sentence
   {
-    private readonly List<TokenMatch> sentence = new List<TokenMatch>();
+    protected readonly List<TokenMatch> sentence;
+
+    public Sentence() {
+        sentence = new();
+    }
 
     /// <summary>
     /// Creates a string with the right end-token

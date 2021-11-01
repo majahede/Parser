@@ -41,23 +41,39 @@ namespace parser
 
     private void ParseSentences(Tokenizer t)
     {
-      Sentence s = new();
-      ParseSentence(t, s);
+      var words = ParseSentence(t);
+      Sentence s = CreateSentenceType(t, words);
+
       ThrowErrorInvalidSentence(s.GetSentence().Length);
       sentences.Add(s);
     }
 
-
-    private void ParseSentence(Tokenizer t, Sentence s)
+    private List<TokenMatch> ParseSentence(Tokenizer t)
     {
+      List<TokenMatch> words = new();
+
       while (t.ActiveToken.Token == "WORD")
       {
-        s.Add(t.ActiveToken);
+        words.Add(t.ActiveToken);
         t.GetNextToken();
       }
 
-      s.Add(t.ActiveToken);
-      t.GetNextToken();
+      return words;
+    }
+
+    private Sentence CreateSentenceType(Tokenizer t, List<TokenMatch> words) {
+        SentenceFactory f = new();
+        Sentence s = f.GetSentenceType(t.ActiveToken);
+        
+        Console.WriteLine(s);
+        foreach(var w in words) {
+          s.Add(w);
+        }
+
+        s.Add(t.ActiveToken);
+        t.GetNextToken();
+
+        return s;
     }
 
     private void ThrowErrorInvalidSentence(int length)
