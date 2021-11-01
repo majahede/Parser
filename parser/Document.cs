@@ -41,7 +41,7 @@ namespace parser
 
     private void ParseSentences(Tokenizer t)
     {
-      Sentence s = new Sentence();
+      Sentence s = new();
       ParseSentence(t, s);
       ThrowErrorInvalidSentence(s.GetSentence().Length);
       sentences.Add(s);
@@ -70,7 +70,7 @@ namespace parser
 
     public List<Sentence> GetAllSentences()
     {
-      return sentences.GetSentences();
+      return sentences.SentenceList;
     }
 
     public List<Sentence> GetAllRegularSentences()

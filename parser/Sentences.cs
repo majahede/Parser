@@ -4,16 +4,11 @@ namespace parser
 {
   class Sentences
   {
-    private readonly List<Sentence> sentences = new List<Sentence>();
+    public List<Sentence> SentenceList { get; } = new();
 
     public void Add(Sentence s)
     {
-      sentences.Add(s);
-    }
-
-    public List<Sentence> GetSentences()
-    {
-      return sentences;
+      SentenceList.Add(s);
     }
   }
 }
