@@ -17,7 +17,7 @@ namespace parser
 
       while (t.ActiveToken.Token != "END")
       {
-        ParseSentences(t);
+        sentences.ParseSentences(t);
       }
       return sentences;
     }
@@ -36,43 +36,6 @@ namespace parser
       grammar.Add(r);
 
       return grammar;
-    }
-
-    private void ParseSentences(Tokenizer t)
-    {
-      var words = ParseWords(t);
-      Sentence s = CreateSentenceType(t, words);
-
-      ThrowErrorInvalidSentence(s.GetSentence().Length);
-
-      sentences.Add(s);
-    }
-
-    private List<TokenMatch> ParseWords(Tokenizer t)
-    {
-      List<TokenMatch> words = new();
-
-      while (t.ActiveToken.Token == "WORD")
-      {
-        words.Add(t.ActiveToken);
-        t.GetNextToken();
-      }
-
-      return words;
-    }
-
-    private Sentence CreateSentenceType(Tokenizer t, List<TokenMatch> words) {
-        SentenceFactory factory = new();
-        Sentence sentence = factory.GetSentenceType(t.ActiveToken);
-
-        foreach(var w in words) {
-          sentence.Add(w);
-        }
-
-        sentence.Add(t.ActiveToken);
-        t.GetNextToken();
-
-        return sentence;
     }
 
     private void ThrowErrorInvalidSentence(int length)

@@ -84,7 +84,7 @@ namespace parser
       Document d = new Document();
       d.Parse("a ccc! a bb?");
       var sentences = d.GetAllSentences();
-      Assert.Equal("EXCLAMATIONMARK", sentences[0].GetEndType().Token);
+      Assert.Equal("!", sentences[0].EndType);
     }
 
     // Later sentence is a question
@@ -94,7 +94,7 @@ namespace parser
       Document d = new Document();
       d.Parse("a ccc! a bb?");
       var sentences = d.GetAllSentences();
-      Assert.Equal("QUESTIONMARK", sentences[1].GetEndType().Token);
+      Assert.Equal("?", sentences[1].EndType);
     }
 
     // Correct endtype in sentence
@@ -104,7 +104,7 @@ namespace parser
       Document d = new Document();
       d.Parse("a ccc! a bb.");
       var sentences = d.GetAllSentences();
-      Assert.Equal("DOT", sentences[1].GetEndType().Token);
+      Assert.Equal(".", sentences[1].EndType);
     }
 
     // Invalid sentence error if uknown symbol

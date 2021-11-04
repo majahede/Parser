@@ -6,5 +6,3 @@ namespace tokenizer
         public string Match { get; set; } = "";
   }
 }
-
-    //    return new KeyValuePair<string, string>("END", "");

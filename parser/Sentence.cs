@@ -5,9 +5,11 @@ using tokenizer;
 
 namespace parser
 {
-  class Sentence
+  abstract class Sentence
   {
     protected readonly List<TokenMatch> sentence;
+
+    public abstract string EndType { get; }
 
     public Sentence() {
         sentence = new();
@@ -21,7 +23,7 @@ namespace parser
     {
       var words = GetWords();
       string s = string.Join(" ", words);
-      return s += GetEndType().Match;
+      return s += EndType;
     }
 
     public List<string> GetWords()
@@ -29,14 +31,11 @@ namespace parser
       return (from tokenMatch in sentence where tokenMatch.Token == "WORD" select tokenMatch.Match).ToList();
     }
 
-    public TokenMatch GetEndType()
-    {
-      return sentence.Last();
-    }
-
     public void Add(TokenMatch tokenMatch)
     {
       sentence.Add(tokenMatch);
     }
+
+    public abstract void SetStyling();
   }
 }

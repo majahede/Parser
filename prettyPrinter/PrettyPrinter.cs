@@ -45,27 +45,11 @@ namespace prettyPrinter
       Console.WriteLine("---------");
       foreach (Sentence s in sentences)
       {
-        SetStyling(s.GetEndType().Token);
+        s.GetStyling();
         Console.WriteLine(sentences.IndexOf(s) + 1 + ": " + s.GetSentence());
         Console.ResetColor();
       }
       Console.WriteLine("---------");
-    }
-
-    private void SetStyling(string endType)
-    {
-      if (endType == "DOT")
-      {
-        Console.ForegroundColor = ConsoleColor.DarkMagenta;
-      }
-      else if (endType == "QUESTIONMARK")
-      {
-        Console.ForegroundColor = ConsoleColor.Blue;
-      }
-      else if (endType == "EXCLAMATIONMARK")
-      {
-        Console.ForegroundColor = ConsoleColor.Green;
-      }
     }
   }
 }
