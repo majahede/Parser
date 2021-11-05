@@ -45,7 +45,7 @@ namespace prettyPrinter
       Console.WriteLine("---------");
       foreach (Sentence s in sentences)
       {
-        s.GetStyling();
+        s.SetStyling();
         Console.WriteLine(sentences.IndexOf(s) + 1 + ": " + s.GetSentence());
         Console.ResetColor();
       }
