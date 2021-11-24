@@ -4,5 +4,5 @@ namespace tokenizer
     {
         public string Token { get; set; } = "END";
         public string Match { get; set; } = "";
-  }
+    }
 }
